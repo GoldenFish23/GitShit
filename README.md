@@ -12,3 +12,5 @@ CONTRIBUTE IN THIS oNLY IF:-
  - INTERESTED IN CONTRIBUTING OPENSOURCE
  - INTERESTED IN PYTHON
 
+<br>
+Copy minigit.py and change code to make CLI tool.
