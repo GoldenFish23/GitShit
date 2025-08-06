@@ -14,3 +14,7 @@ CONTRIBUTE IN THIS oNLY IF:-
 
 <br>
 Copy minigit.py and change code to make CLI tool.
+
+## Screenshot
+
+<img src="https://github.com/GoldenFish23/GitShit/blob/main/resources/Screenshot%202025-08-06%20192448.png">
