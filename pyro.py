@@ -160,13 +160,16 @@ def status():
             data['untracked files'] = set(data['untracked files'])
             data['tracked files'] = set(data['tracked files'])
 
+            # prev_record = data['untracked files']
+
             data['untracked files'] = (data['untracked files'] - files) | (files - ((data['tracked files'] & files) | (data['untracked files'] & files))) | (data['untracked files'] & files)
             MODIFICATION = True
+            # if prev_record != 
 
             if MODIFICATION:
                 data = {'tracked files': list(data['tracked files']), 'untracked files': list(data['untracked files'])}
-                print(f"Tracked files: {data['tracked files']}")
-                print(f"Untracked files: {data['untracked files']}")
+                # print(f"Tracked files: {data['tracked files']}")
+                # print(f"Untracked files: {data['untracked files']}")
                 stat.seek(0)
                 stat.truncate()
                 stat.write(json.dumps(data))
@@ -247,49 +250,62 @@ def commit(message):
                 commit.truncate()
                 commit.write(json.dumps(commit_data, indent=3))
 
+def main():
+    HEADER = """
+****************************************************************************************
+****************************************************************************************
+
+    ///////        ////////  ////////    ////      ///  ///  ////////  ////////
+ ////   ///          ///       ///    ///    /    ///  ///     ///       ///
+////                ///       ///     /////      ////////     ///       ///
+////   ////////    ///       ///        /////   ////////     ///       ///
+ ////  /// ///    ///       ///     //    ///  ///  ///     ///       ///
+   ////// //// ////////    ///       //////   ///  ///   ////////    ///
+
+****************************************************************************************
+****************************************************************************************
+
+Commands:
+    - init : initialize Gitshit to keep track
+    - add : adding a file to track
+    - commit : commit a save
+    - status : status of files being tracked
+            """
+        
+    print(HEADER)
+
+    
+    command = input("Enter command (init, add, commit, status, quit): ").strip()
+    while (command != 'quit'):
+        if command == '':
+            command = input("Enter command (init, add, commit, status, quit): ").strip()
+
+        if command == 'init':
+            init()
+            command = ''
+        elif command == 'add':
+            file = input("Enter file to add: ").strip()
+            if os.path.exists(file):
+                add(file)
+            else:
+                print(f"File {file} does not exist.")
+            command = ''
+        elif command == 'commit':
+            message = input("Enter commit message: ").strip()
+            commit(message)
+            command = ''
+        elif command == 'status':
+            status()
+            command = ''
+        elif command == 'quit':
+            exit()
+        else:
+            print("Unknown command.")
+            command = ''
+
+
 
 if __name__ == "__main__":
-    init()
-    print("\n")
-    add('pyro.py', 'test.txt')
-    print("\n")
-    status()
-    print("\n")
-    with open(os.path.join(os.getcwd(), 'bison.txt'), 'w+') as txt:
-        txt.write('This is a test file.')
-    status()
-    print("\n")
-    print("H!")
-    add()
-    print("H!!")
-    print("\n")
-    status()
-    print("\n")
-    commit('First commit')
-    print("\n")
-    status()
-    with open(os.path.join(os.getcwd(), 'bison1.txt'), 'w+') as txt:
-        txt.write('This is a test file.')
-    print("\n")
-    status()
-    print("\n")
-    add()
-    print("\n")
-    commit('Second commit')
-    print("\n")
-    with open(os.path.join(os.getcwd(), 'bison1.txt'), 'r+') as txt:
-        data = txt.read()
-        # print(data)
-        data = data + 'Some updated content'
-        txt.seek(0)
-        txt.truncate()
-        txt.write(data)
-    print("\n")
-    status()
-    print("\n")
-    add()
-    print("\n")
-    commit('Last commit')
-    print("\n")
+    main()
     # Add more functionality as needed
     # For example, you can add functions to add files, commit changes, etc.
